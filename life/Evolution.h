@@ -6,15 +6,15 @@
 class Evolution {
 public:
 	Evolution();
-	explicit Evolution(const std::vector<std::pair<size_t, Point>>& params);
+	explicit Evolution(const std::vector<std::pair<size_t, Coordinates>>& params);
 	~Evolution(){
 		for (auto cl : this->colonys_) {
 			delete cl;
 		}
 	}
 
-	void GenerateColony(const std::vector<std::pair<size_t, Point>>& params);
-	void AddColony(const std::pair<size_t, Point>& params);
+	void GenerateColony(const std::vector<std::pair<size_t, Coordinates>>& params);
+	void AddColony(const Colony* colony);
 	void KillColonys();
 	void BornColonys();
 	void LifeCircle();

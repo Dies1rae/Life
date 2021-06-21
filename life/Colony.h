@@ -1,27 +1,38 @@
 #pragma once
 #include "Cell.h"
 
-#include <deque>
+#include <vector>
+#include <random>
+#include <algorithm>
 
 class Colony {
 public:
-	Colony();
-	explicit Colony(const size_t size);
-	explicit Colony(const size_t size, const Point& start_loc);
-	explicit Colony(const Cell& newcolony);
+	Colony() = default;
 	~Colony(){}
 	
-	const std::deque<Cell> GetColony();
+	std::vector<Cell> GetColony() const;
 	void KillCells();
 	void BornCells();
-	void RemoveCell(const Cell& cell);
+	void RemoveCell(const size_t pos);
 	void AddCell(const Cell& cell);
+	void AddCell(const Coordinates& cellcoord);
 	const size_t Size() const;
 	const bool Empty() const;
+	const size_t GetGen() const;
+	const void IncrementGen();
 
 private:
-	size_t colony_gen_ = 0;
-	Point colony_location_;
-	std::deque<Cell> colony_;
+	Coordinates PositionRandomizer(const std::pair<int, int>& minmax_x, const std::pair<int, int>& minmax_y) {
+		std::random_device r;
+		std::mt19937 edge(r());
+
+		std::uniform_int_distribution<int> normal_dist_x(minmax_x.first, minmax_x.second);
+		std::uniform_int_distribution<int> normal_dist_y(minmax_y.first, minmax_y.second);
+		return { normal_dist_x(edge), normal_dist_y(edge) };
+	}
+
+	size_t colony_gen_ = 1;
+	Coordinates colony_location_;
+	std::vector<Cell> colony_;
 };
 
