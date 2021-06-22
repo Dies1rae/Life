@@ -65,16 +65,22 @@ int main() {
 	Cell H = { 10, 33 };
 	Stick.AddCell(F).AddCell(J).AddCell(H);
 
-	vector<Colony> test{ Glider, Stick };
+	Colony Toad;
+	Cell I = { 40, 60 };
+	Cell K = { 40, 61 };
+	Cell L = { 41, 62 };
+	Cell M = { 42, 59 };
+	Cell O = { 43, 60 };
+	Cell P = { 43, 61 };
+	Toad.AddCell(I).AddCell(K).AddCell(L).AddCell(M).AddCell(O).AddCell(P);
+
+	vector<Colony> test{ Glider, Stick, Toad };
 
 	while(1){
 		makeplayground(field);
 		markcolony(field, test);
 		displayplayground(field, cout);
-		cout << "Generation Glider: " << test[0].GetGen() << endl;
-		cout << "Colony Glider size: " << test[0].GetColony().size() << endl;
-		cout << "Generation Stick: " << test[1].GetGen() << endl;
-		cout << "Colony Stick size: " << test[1].GetColony().size() << endl;
+
 		for (auto& colony : test) {
 			colony.ColonyLifeCircle();
 		}
