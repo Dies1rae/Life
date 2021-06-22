@@ -11,15 +11,22 @@ public:
 	~Colony(){}
 	
 	std::vector<Cell> GetColony() const;
+
 	void KillCells();
-	void BornCells();
+	const void ColonyLifeCircle();
 	void RemoveCell(const size_t pos);
-	void AddCell(const Cell& cell);
+
+	Colony& AddCell(const Cell& cell);
 	void AddCell(const Coordinates& cellcoord);
+
 	const size_t Size() const;
 	const bool Empty() const;
+
 	const size_t GetGen() const;
 	const void IncrementGen();
+
+	Coordinates GetColonyCoord() const;
+	void SetColonyCoord(const Coordinates& coord);
 
 private:
 	Coordinates PositionRandomizer(const std::pair<int, int>& minmax_x, const std::pair<int, int>& minmax_y) {

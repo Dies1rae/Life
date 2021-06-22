@@ -83,23 +83,19 @@ void Colony::KillCells() {
 	}
 
 	this->colony_.erase(std::remove_if(this->colony_.begin(), this->colony_.end(), [](const Cell& A) {return A.life_ == false;}), this->colony_.end());
-	
 }
 
-void Colony::BornCells() {
-	
-	std::vector<Cell> tmp = this->colony_;
+const void Colony::ColonyLifeCircle() {
 	std::unordered_map<Cell, int, CellHesher> coords;
-	
-	for (auto ptr = 0; ptr < tmp.size(); ptr++) {
-		coords[{tmp[ptr].Coords_.x_ - 1, tmp[ptr].Coords_.y_}]++;
-		coords[{tmp[ptr].Coords_.x_ - 1, tmp[ptr].Coords_.y_ - 1}]++;
-		coords[{tmp[ptr].Coords_.x_ - 1, tmp[ptr].Coords_.y_ + 1}]++;
-		coords[{tmp[ptr].Coords_.x_, tmp[ptr].Coords_.y_ - 1}]++;
-		coords[{tmp[ptr].Coords_.x_ + 1, tmp[ptr].Coords_.y_ - 1}]++;
-		coords[{tmp[ptr].Coords_.x_ + 1, tmp[ptr].Coords_.y_}]++;
-		coords[{tmp[ptr].Coords_.x_ + 1, tmp[ptr].Coords_.y_ + 1}]++;
-		coords[{tmp[ptr].Coords_.x_, tmp[ptr].Coords_.y_ + 1}]++;
+	for (auto ptr = 0; ptr < this->colony_.size(); ptr++) {
+		coords[{this->colony_[ptr].Coords_.x_ - 1, this->colony_[ptr].Coords_.y_}]++;
+		coords[{this->colony_[ptr].Coords_.x_ - 1, this->colony_[ptr].Coords_.y_ - 1}]++;
+		coords[{this->colony_[ptr].Coords_.x_ - 1, this->colony_[ptr].Coords_.y_ + 1}]++;
+		coords[{this->colony_[ptr].Coords_.x_, this->colony_[ptr].Coords_.y_ - 1}]++;
+		coords[{this->colony_[ptr].Coords_.x_ + 1, this->colony_[ptr].Coords_.y_ - 1}]++;
+		coords[{this->colony_[ptr].Coords_.x_ + 1, this->colony_[ptr].Coords_.y_}]++;
+		coords[{this->colony_[ptr].Coords_.x_ + 1, this->colony_[ptr].Coords_.y_ + 1}]++;
+		coords[{this->colony_[ptr].Coords_.x_, this->colony_[ptr].Coords_.y_ + 1}]++;
 	}
 
 	this->KillCells();
@@ -108,18 +104,19 @@ void Colony::BornCells() {
 			return A == cell;
 			});
 		if (ctr == 3 && cl_same == this->colony_.end()) {
-
 			this->AddCell(cell);
 		}
 	}
+	this->IncrementGen();
 }
 
 void Colony::RemoveCell(const size_t pos) {
 	this->colony_.erase(this->colony_.begin() + pos);
 }
 
-void Colony::AddCell(const Cell& cell) {
+Colony& Colony::AddCell(const Cell& cell) {
 	this->colony_.push_back(cell);
+	return *this;
 }
 
 void Colony::AddCell(const Coordinates& cellcoord) {
@@ -140,4 +137,12 @@ const size_t Colony::GetGen() const {
 
 const void Colony::IncrementGen() {
 	this->colony_gen_++;
+}
+
+Coordinates Colony::GetColonyCoord() const {
+	return this->colony_location_;
+}
+
+void Colony::SetColonyCoord(const Coordinates& coord) {
+	this->colony_location_ = coord;
 }
