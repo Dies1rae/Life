@@ -8,26 +8,33 @@
 class Colony {
 public:
 	Colony() = default;
+	explicit Colony(const std::vector<Cell>& cells) {
+		for (const auto& cell : cells) {
+			this->AddCell(cell);
+		}
+	}
 	~Colony(){}
 	
-	std::vector<Cell> GetColony() const;
+	const std::vector<Cell>& GetColony() const;
+	std::vector<Cell>& GetColony();
 
 	void KillCells();
-	const void ColonyLifeCircle();
+	void ColonyLifeCircle();
+
 	void RemoveCell(const size_t pos);
+	void RemoveCell(const Cell& cell);
 
 	Colony& AddCell(const Cell& cell);
 	void AddCell(const Coordinates& cellcoord);
 
-	const size_t Size() const;
-	const bool Empty() const;
+	size_t Size() const;
+	bool Empty() const;
 
-	const size_t GetGen() const;
-	const void IncrementGen();
+	size_t GetGen() const;
+	void IncrementGen();
 
 	Coordinates GetColonyCoord() const;
 	void SetColonyCoord(const Coordinates& coord);
-
 private:
 	Coordinates PositionRandomizer(const std::pair<int, int>& minmax_x, const std::pair<int, int>& minmax_y) {
 		std::random_device r;
