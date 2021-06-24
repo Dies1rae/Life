@@ -51,13 +51,13 @@ void markcolony(std::vector<std::vector<char>>& field, const vector<Colony>& col
 int main() {
 	system("MODE CON COLS=150 LINES=190");
 
-	Coordinates max_filed_coords{ 101,131 };
+	Coordinates max_filed_coords{ 51,101 };
 	vector<vector<char>> field(max_filed_coords.x_);
 	for (auto& vec : field) {
 		vec.resize(max_filed_coords.y_);
 	}
 
-	RPentomino pent_u({ 50,64 }, Direction::UP, max_filed_coords);
+	RPentomino pent_u({ 25,50 }, Direction::UP, max_filed_coords);
 
 	vector<Colony> test{ pent_u.colony_};
 
