@@ -46,7 +46,7 @@ void Evolution::LifeCircle(const Coordinates& field) {
 	for (auto& colony : this->colonys_) {
 		bool cellpos = true;
 		for (Cell& cell : colony.GetColony()) {
-			if (cell.Coords_.x_ >= field.x_ - 1 || cell.Coords_.y_ >= field.y_ - 1 || cell.Coords_.x_ <= 1 || cell.Coords_.y_ <= 1) {
+			if (cell.Coords_.x_ >= field.x_ - 1 || cell.Coords_.y_ >= field.y_ - 1 || cell.Coords_.x_ < 1 || cell.Coords_.y_ < 1) {
 				cellpos = false;
 				colony.RemoveCell(cell);
 			}
@@ -60,4 +60,12 @@ void Evolution::LifeCircle(const Coordinates& field) {
 
 const std::vector<Colony>& Evolution::GetColonys() const {
 	return this->colonys_;
+}
+
+bool Evolution::Empty() const {
+	return this->colonys_.empty();
+}
+
+size_t Evolution::Size() const {
+	return this->colonys_.size();
 }

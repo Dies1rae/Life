@@ -1,7 +1,13 @@
 #pragma once
 
+#include "Exception.h"
+
 #include <algorithm>
 #include <numeric>
+
+enum class Direction {
+	UP, DOWN, LEFT, RIGHT
+};
 
 struct Coordinates {
 	int x_ = 0;

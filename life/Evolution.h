@@ -31,6 +31,9 @@ public:
 	void KillColonys();
 	void BornColonys();
 
+	bool Empty() const;
+	size_t Size() const;
+
 	void LifeCircle(const Coordinates& field);
 
 	const std::vector<Colony>& GetColonys() const;

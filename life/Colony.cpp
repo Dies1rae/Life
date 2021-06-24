@@ -140,8 +140,9 @@ Colony& Colony::AddCell(const Cell& cell) {
 	return *this;
 }
 
-void Colony::AddCell(const Coordinates& cellcoord) {
+Colony& Colony::AddCell(const Coordinates& cellcoord) {
 	this->colony_.push_back({ cellcoord });
+	return *this;
 }
 
 size_t Colony::Size() const {
@@ -158,12 +159,4 @@ size_t Colony::GetGen() const {
 
 void Colony::IncrementGen() {
 	this->colony_gen_++;
-}
-
-Coordinates Colony::GetColonyCoord() const {
-	return this->colony_location_;
-}
-
-void Colony::SetColonyCoord(const Coordinates& coord) {
-	this->colony_location_ = coord;
 }

@@ -25,7 +25,7 @@ public:
 	void RemoveCell(const Cell& cell);
 
 	Colony& AddCell(const Cell& cell);
-	void AddCell(const Coordinates& cellcoord);
+	Colony& AddCell(const Coordinates& cellcoord);
 
 	size_t Size() const;
 	bool Empty() const;
@@ -33,7 +33,6 @@ public:
 	size_t GetGen() const;
 	void IncrementGen();
 
-	Coordinates GetColonyCoord() const;
 	void SetColonyCoord(const Coordinates& coord);
 private:
 	Coordinates PositionRandomizer(const std::pair<int, int>& minmax_x, const std::pair<int, int>& minmax_y) {
@@ -46,7 +45,5 @@ private:
 	}
 
 	size_t colony_gen_ = 1;
-	Coordinates colony_location_;
 	std::vector<Cell> colony_;
 };
-
