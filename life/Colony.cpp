@@ -1,7 +1,6 @@
 #include "Colony.h"
 
-#include<unordered_map>
-#include <set>
+#include <unordered_map>
 
 const std::vector<Cell>& Colony::GetColony() const {
 	return this->colony_;
@@ -98,8 +97,9 @@ void Colony::KillCells() {
 			cell->life_ = false;
 		}
 	}
-
+	this->cell_static.first = this->colony_.size();
 	this->colony_.erase(std::remove_if(this->colony_.begin(), this->colony_.end(), [](const Cell& A) {return A.life_ == false;}), this->colony_.end());
+	this->cell_static.second = this->cell_static.first - this->colony_.size();
 }
 
 void Colony::ColonyLifeCircle() {
@@ -136,12 +136,44 @@ void Colony::RemoveCell(const Cell& cell) {
 }
 
 Colony& Colony::AddCell(const Cell& cell) {
-	this->colony_.push_back(cell);
+	if (this->max_field_sizes_ != Coordinates::NONE) {
+		if (cell.Coords_ > Coordinates::NONE && cell.Coords_ < this->max_field_sizes_) {
+			this->cell_static.first = this->cell_static.second;
+			this->cell_static.second++;
+			this->colony_.push_back(cell);
+		} else {
+			throw InvalidPosition("Invalid Coordinates to Cell position");
+		}
+	} else {
+		if (cell.Coords_ > Coordinates::NONE && cell.Coords_ < Coordinates::NONE_MAX) {
+			this->cell_static.first = this->cell_static.second;
+			this->cell_static.second++;
+			this->colony_.push_back(cell);
+		} else {
+			throw InvalidPosition("Invalid Coordinates to Cell position");
+		}
+	}
 	return *this;
 }
 
 Colony& Colony::AddCell(const Coordinates& cellcoord) {
-	this->colony_.push_back({ cellcoord });
+	if (this->max_field_sizes_ != Coordinates::NONE) {
+		if (cellcoord > Coordinates::NONE && cellcoord < this->max_field_sizes_) {
+			this->cell_static.first = this->cell_static.second;
+			this->cell_static.second++;
+			this->colony_.push_back({ cellcoord });
+		} else {
+			throw InvalidPosition("Invalid Coordinates to Cell position");
+		}
+	} else {
+		if (cellcoord > Coordinates::NONE && cellcoord < Coordinates::NONE_MAX) {
+			this->cell_static.first = this->cell_static.second;
+			this->cell_static.second++;
+			this->colony_.push_back({ cellcoord });
+		} else {
+			throw InvalidPosition("Invalid Coordinates to Cell position");
+		}
+	}
 	return *this;
 }
 
@@ -159,4 +191,16 @@ size_t Colony::GetGen() const {
 
 void Colony::IncrementGen() {
 	this->colony_gen_++;
+}
+
+void Colony::SetType(const std::string& Type) {
+	this->colony_type_ = Type;
+}
+
+const std::string Colony::GetType() const {
+	return this->colony_type_;
+}
+
+const bool Colony::Static() const {
+	return this->cell_static.second == 0;
 }

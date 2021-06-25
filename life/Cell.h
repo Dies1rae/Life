@@ -3,7 +3,6 @@
 #include "Exception.h"
 
 #include <algorithm>
-#include <numeric>
 
 enum class Direction {
 	UP, DOWN, LEFT, RIGHT
@@ -12,6 +11,14 @@ enum class Direction {
 struct Coordinates {
 	int x_ = 0;
 	int y_ = 0;
+
+	static const Coordinates NONE;
+	static const Coordinates NONE_MAX;
+
+	bool operator==(Coordinates rhs) const;
+	bool operator<(Coordinates rhs) const;
+	bool operator!=(const Coordinates& rhs) const;
+	bool operator>(const Coordinates& rhs) const;
 };
 
 struct Cell {
@@ -25,6 +32,11 @@ public:
 		}
 		return *this;
 	}
+
+	bool operator<(const Cell& rhs) const;
+	bool operator>(const Cell& rhs) const;
+	bool operator==(const Cell& rhs) const;
+	bool operator!=(const Cell& rhs) const;
 
 	Coordinates Coords_;
 	bool life_ = true;
@@ -40,7 +52,4 @@ struct CellHesher {
 	}
 };
 
-bool operator<(const Cell& lhs, const Cell& rhs);
-bool operator>(const Cell& lhs, const Cell& rhs);
-bool operator==(const Cell& lhs, const Cell& rhs);
-bool operator!=(const Cell& lhs, const Cell& rhs);
+

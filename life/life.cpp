@@ -10,7 +10,6 @@
 
 using namespace std;
 
-
 void makeplayground(std::vector<std::vector<char>>& field) {
 	for (size_t y = 0; y < field.size(); y++) {
 		for (size_t x = 0; x < field[y].size(); x++) {
@@ -60,21 +59,78 @@ int main() {
 		vec.resize(max_filed_coords.y_);
 	}
 
-	RPentomino pent_u({ 25,50 }, Direction::UP, max_filed_coords);
+	Toad toa_u({ 45,4 }, Direction::UP, max_filed_coords);
+	Toad toa_d({ 4,90 }, Direction::DOWN, max_filed_coords);
 
-	vector<Colony> test{ pent_u.colony_};
+	Glider gli_ul({ 4,4 }, Direction::DOWN, max_filed_coords);
+	Glider gli_ur({ 45,4 }, Direction::UP, max_filed_coords);
+	Glider gli_dl({ 4,90 }, Direction::DOWN, max_filed_coords);
+	Glider gli_dr({ 45,90 }, Direction::UP, max_filed_coords);
 
-	Evolution Earth(std::move(test));
+	RPentomino pent_u({ 25,50 }, Direction::RIGHT, max_filed_coords);
 
-	while(!Earth.Empty()){
+	vector<Colony> test_gli{ gli_ul.colony_, gli_ur.colony_, gli_dl.colony_, gli_dr.colony_ };
+	vector<Colony> test_penta{ pent_u.colony_ };
+	vector<Colony> test_toad{ toa_u.colony_, toa_d.colony_ };
+
+	Evolution Earth(std::move(test_gli));
+	Evolution Earth_1(std::move(test_penta));
+	Evolution Earth_2(std::move(test_toad));
+
+	while(!Earth.Static()){
 		makeplayground(field);
 		markcolony(field, Earth.GetColonys());
 		displayplayground(field, cout);
 		Earth.LifeCircle(max_filed_coords);
-		cout << "Evolution lifetime: " << std::fixed << std::setprecision(2) << Earth.GetLifeTime() << " seconds" << endl;
+		cout << "Glider test\n";
+		cout << "Evolution lifetime: " << std::fixed << std::setprecision(2) << Earth.GetLifeTime() << " seconds\n";
+		for (const auto& [type, gen] : Earth.GetColonyData()) {
+			cout << "Colony type: " << type << '\n';
+			cout << "Colony gen: " << gen << '\n';
+		}
 	}
-	makeplayground(field);
-	displayplayground(field, cout);
-	cout << "END!\n";
+	cout << "\nGLIDER TEST'S END OK\n";
+	system("PAUSE");
+	system("cls");
+
+	while (!Earth_2.Static()) {
+		makeplayground(field);
+		markcolony(field, Earth_2.GetColonys());
+		displayplayground(field, cout);
+		Earth_2.LifeCircle(max_filed_coords);
+		cout << "Toad test\n";
+		cout << "Evolution lifetime: " << std::fixed << std::setprecision(2) << Earth_2.GetLifeTime() << " seconds\n";
+		for (const auto& [type, gen] : Earth_2.GetColonyData()) {
+			cout << "Colony type: " << type << '\n';
+			cout << "Colony gen: " << gen << '\n';
+		}
+		if (Earth_2.GetLifeTime() > 10.0) {
+			break;
+		}
+	}
+	cout << "\nTOADS TEST'S END OK\n";
+	system("PAUSE");
+	system("cls");
+
+	while (!Earth_1.Static()) {
+		makeplayground(field);
+		markcolony(field, Earth_1.GetColonys());
+		displayplayground(field, cout);
+		Earth_1.LifeCircle(max_filed_coords);
+		cout << "RPentomino test\n";
+		cout << "Evolution lifetime: " << std::fixed << std::setprecision(2) << Earth_1.GetLifeTime() << " seconds\n";
+		for (const auto& [type, gen] : Earth_1.GetColonyData()) {
+			cout << "Colony type: " << type << '\n';
+			cout << "Colony gen: " << gen << '\n';
+		}
+		if (Earth_2.GetLifeTime() > 30.0) {
+			break;
+		}
+	}
+	cout << "\RPentomino TEST'S END OK\n";
+	system("PAUSE");
+	system("cls");
+	cout << "\nALL TEST'S END OK\n";
+
 	return 0;
 }

@@ -69,3 +69,30 @@ bool Evolution::Empty() const {
 size_t Evolution::Size() const {
 	return this->colonys_.size();
 }
+
+std::vector<std::pair<std::string, size_t>> Evolution::GetColonyData() const {
+	std::vector<std::pair<std::string, size_t>> data;
+	for (const auto& colony : this->colonys_) {
+		data.push_back({colony.GetType(),colony.GetGen()});
+	}
+	return data;
+}
+
+double Evolution::GetLifeTime() const {
+	HightTime::time_point end_time = HightTime::now();
+	return std::chrono::duration<double, std::milli>(end_time - this->timer_start_).count() / 1000;
+}
+
+const bool Evolution::Static() const {
+	for (const auto& colony : this->colonys_) {
+		if (!colony.Static()) {
+			return false;
+		}
+	}
+	return true;
+}
+
+void Evolution::Clear() {
+	this->colonys_.clear();
+	this->timer_start_ = HightTime::now();
+}

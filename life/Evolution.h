@@ -1,8 +1,6 @@
 #pragma once
 #include "Colony.h"
 
-#include <string>
-#include <vector>
 #include <time.h>
 #include <chrono>
 
@@ -38,18 +36,13 @@ public:
 
 	const std::vector<Colony>& GetColonys() const;
 
-	std::vector<std::string> GetColonyData() const {
-		std::vector<std::string> data;
-		for (const auto& colony : this->colonys_) {
-			data.push_back(std::to_string(colony.GetGen()));
-		}
-		return data;
-	}
+	std::vector<std::pair<std::string, size_t>> GetColonyData() const;
 
-	double GetLifeTime() {
-		HightTime::time_point end_time = HightTime::now();
-		return std::chrono::duration<double, std::milli>(end_time - this->timer_start_).count() / 1000;
-	}
+	double GetLifeTime() const;
+
+	const bool Static() const;
+
+	void Clear();
 private:
 	HightTime::time_point timer_start_ = HightTime::now();
 	std::vector<Colony> colonys_;
