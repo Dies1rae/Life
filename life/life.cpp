@@ -127,7 +127,7 @@ int main() {
 			break;
 		}
 	}
-	cout << "\RPentomino TEST'S END OK\n";
+	cout << "\nRPentomino TEST'S END OK\n";
 	system("PAUSE");
 	system("cls");
 	cout << "\nALL TEST'S END OK\n";
