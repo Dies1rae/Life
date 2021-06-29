@@ -19,7 +19,7 @@ public:
 			this->AddCell(cell);
 		}
 	}
-	~Colony(){}
+	virtual ~Colony(){}
 	
 	const std::vector<Cell>& GetColony() const;
 	std::vector<Cell>& GetColony();

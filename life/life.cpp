@@ -53,7 +53,7 @@ void markcolony(std::vector<std::vector<char>>& field, const vector<Colony>& col
 int main() {
 	system("MODE CON COLS=150 LINES=190");
 
-	Coordinates max_filed_coords{ 51,101 };
+	Coordinates max_filed_coords{ 52,102 };
 	vector<vector<char>> field(max_filed_coords.x_);
 	for (auto& vec : field) {
 		vec.resize(max_filed_coords.y_);
@@ -69,9 +69,9 @@ int main() {
 
 	RPentomino pent_u({ 25,50 }, Direction::RIGHT, max_filed_coords);
 
-	vector<Colony> test_gli{ gli_ul.colony_, gli_ur.colony_, gli_dl.colony_, gli_dr.colony_ };
-	vector<Colony> test_penta{ pent_u.colony_ };
-	vector<Colony> test_toad{ toa_u.colony_, toa_d.colony_ };
+	vector<Colony> test_gli{ gli_ul, gli_ur, gli_dl, gli_dr };
+	vector<Colony> test_penta{ pent_u };
+	vector<Colony> test_toad{ toa_u, toa_d };
 
 	Evolution Earth(std::move(test_gli));
 	Evolution Earth_1(std::move(test_penta));

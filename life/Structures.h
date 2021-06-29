@@ -2,9 +2,9 @@
 
 #include "Colony.h"
 
-class Glider {
+class Glider : public Colony {
 public:
-	Glider(const Coordinates& pos, const Direction& direction, const Coordinates& max_field_size) : colony_(max_field_size) {
+	Glider(const Coordinates& pos, const Direction& direction, const Coordinates& max_field_size) : max_field_sizes_(max_field_size) {
 		if (pos.x_ < 3 || pos.x_ > (max_field_size.x_ - 4) || pos.y_ < 3 || pos.y_ >(max_field_size.y_ - 4)) {
 			throw InvalidPosition("Invalid Glider start position");
 		}
@@ -16,14 +16,14 @@ public:
 				Cell C = { pos.x_, pos.y_ + 2 };
 				Cell D = { pos.x_ + 1, pos.y_ + 2 };
 				Cell E = { pos.x_ + 2, pos.y_ + 1 };
-				this->colony_.AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
+				this->AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
 			} else {
 				Cell A = { pos.x_, pos.y_ };
 				Cell B = { pos.x_, pos.y_ + 1 };
 				Cell C = { pos.x_, pos.y_ + 2 };
 				Cell D = { pos.x_ + 1, pos.y_ };
 				Cell E = { pos.x_ + 2, pos.y_ + 1 };
-				this->colony_.AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
+				this->AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
 			}
 			break;
 		case Direction::DOWN:
@@ -33,48 +33,56 @@ public:
 				Cell C = { pos.x_, pos.y_ + 2 };
 				Cell D = { pos.x_ - 1, pos.y_ + 2 };
 				Cell E = { pos.x_ - 2, pos.y_ + 1 };
-				this->colony_.AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
+				this->AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
 			} else {
 				Cell A = { pos.x_, pos.y_ };
 				Cell B = { pos.x_, pos.y_ + 1 };
 				Cell C = { pos.x_, pos.y_ + 2 };
 				Cell D = { pos.x_ - 1, pos.y_ };
 				Cell E = { pos.x_ - 2, pos.y_ + 1 };
-				this->colony_.AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
+				this->AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
 			}
 			break;
 		default:
 			throw InvalidPosition("Invalid Glider direction");
 			break;
 		}
-		this->colony_.SetType("Glider");
 	}
 	~Glider() {}
 
-	Colony colony_;
+private:
+	std::pair<int, int> cell_static = {0,0};
+	size_t colony_gen_ = 1;
+	Coordinates max_field_sizes_ = Coordinates::NONE;
+	std::string colony_type_ = "Glider";
+	std::vector<Cell> colony_;
 };
 
 
-class Blinker {
+class Blinker : public Colony {
 public:
-	Blinker(const Coordinates& pos, const Coordinates& max_field_size) : colony_(max_field_size) {
+	Blinker(const Coordinates& pos, const Coordinates& max_field_size) : max_field_sizes_(max_field_size) {
 		if (pos.x_ < 3 || pos.x_ > (max_field_size.x_ - 4) || pos.y_ < 3 || pos.y_ > (max_field_size.y_ - 4)) {
 			throw InvalidPosition("Invalid Blinker start position");
 		}
 		Cell A = { pos.x_, pos.y_ };
 		Cell B = { pos.x_, pos.y_ + 1 };
 		Cell C = { pos.x_, pos.y_ + 2 };
-		this->colony_.AddCell(A).AddCell(B).AddCell(C);
-		this->colony_.SetType("Blinker");
+		this->AddCell(A).AddCell(B).AddCell(C);
 	}
 	~Blinker() {}
 
-	Colony colony_;
+private:
+	std::pair<int, int> cell_static = {0,0};
+	size_t colony_gen_ = 1;
+	Coordinates max_field_sizes_ = Coordinates::NONE;
+	std::string colony_type_ = "Blinker";
+	std::vector<Cell> colony_;
 };
 
-class Toad {
+class Toad : public Colony {
 public:
-	Toad(const Coordinates& pos, const Direction& direction, const Coordinates& max_field_size) : colony_(max_field_size) {
+	Toad(const Coordinates& pos, const Direction& direction, const Coordinates& max_field_size) : max_field_sizes_(max_field_size) {
 		if (pos.x_ < 4 || pos.x_ >(max_field_size.x_ - 5) || pos.y_ < 4 || pos.y_ >(max_field_size.y_ - 5)) {
 			throw InvalidPosition("Invalid Toad start position");
 		}
@@ -87,7 +95,7 @@ public:
 				Cell D = { pos.x_ + 2, pos.y_ - 1 };
 				Cell E = { pos.x_ + 3, pos.y_ };
 				Cell F = { pos.x_ + 3, pos.y_ + 1 };
-				this->colony_.AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E).AddCell(F);
+				this->AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E).AddCell(F);
 			}
 			break;
 		case Direction::DOWN:
@@ -98,23 +106,27 @@ public:
 				Cell d = { pos.x_ - 1, pos.y_ + 2 };
 				Cell e = { pos.x_, pos.y_ + 3 };
 				Cell g = { pos.x_ + 1, pos.y_ + 3 };
-				this->colony_.AddCell(a).AddCell(b).AddCell(c).AddCell(d).AddCell(e).AddCell(g);
+				this->AddCell(a).AddCell(b).AddCell(c).AddCell(d).AddCell(e).AddCell(g);
 			}
 			break;
 		default:
 			throw InvalidPosition("Invalid Toad direction");
 			break;
 		}
-		this->colony_.SetType("Toad");
 	}
 	~Toad() {}
 
-	Colony colony_;
+private:
+	std::pair<int, int> cell_static = {0,0};
+	size_t colony_gen_ = 1;
+	Coordinates max_field_sizes_ = Coordinates::NONE;
+	std::string colony_type_ = "Toad";
+	std::vector<Cell> colony_;
 };
 
-class RPentomino {
+class RPentomino : public Colony {
 public:
-	RPentomino(const Coordinates& pos, const Direction& direction, const Coordinates& max_field_size) : colony_(max_field_size) {
+	RPentomino(const Coordinates& pos, const Direction& direction, const Coordinates& max_field_size) : max_field_sizes_(max_field_size) {
 		if (pos.x_ < 3 || pos.x_ >(max_field_size.x_ - 4) || pos.y_ < 3 || pos.y_ >(max_field_size.y_ - 4)) {
 			throw InvalidPosition("Invalid RPentomino start position");
 		}
@@ -126,7 +138,7 @@ public:
 			Cell C = { pos.x_ + 2, pos.y_ };
 			Cell D = { pos.x_ + 1, pos.y_ - 1 };
 			Cell E = { pos.x_, pos.y_ + 1 };
-			this->colony_.AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
+			this->AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
 		}
 		break;
 		case Direction::DOWN:
@@ -136,7 +148,7 @@ public:
 			Cell C = { pos.x_ + 2, pos.y_ };
 			Cell D = { pos.x_ + 1, pos.y_ - 1 };
 			Cell E = { pos.x_ + 2, pos.y_ + 1 };
-			this->colony_.AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
+			this->AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
 		}
 		break;
 		case Direction::RIGHT:
@@ -146,7 +158,7 @@ public:
 			Cell C = { pos.x_, pos.y_ + 2 };
 			Cell D = { pos.x_ - 1, pos.y_ + 2 };
 			Cell E = { pos.x_ + 1, pos.y_ + 1 };
-			this->colony_.AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
+			this->AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
 		}
 		break;
 		case Direction::LEFT:
@@ -156,24 +168,34 @@ public:
 			Cell C = { pos.x_, pos.y_ + 2 };
 			Cell D = { pos.x_ + 1, pos.y_ };
 			Cell E = { pos.x_ - 1, pos.y_ + 1 };
-			this->colony_.AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
+			this->AddCell(A).AddCell(B).AddCell(C).AddCell(D).AddCell(E);
 		}
 		break;
 		default:
 			throw InvalidPosition("Invalid RPentomino direction");
 			break;
 		}
-		this->colony_.SetType("RPentomino");
 	}
 	~RPentomino() {}
 
-	Colony colony_;
+private:
+	std::pair<int, int> cell_static = {0,0};
+	size_t colony_gen_ = 1;
+	Coordinates max_field_sizes_ = Coordinates::NONE;
+	std::string colony_type_ = "RPentomino";
+	std::vector<Cell> colony_;
 };
 
-class Free {
+class Free : public Colony {
 public:
-	Free(const Coordinates& max_field_size) : colony_(max_field_size) {}
+	Free(const Coordinates& max_field_size) : max_field_sizes_(max_field_size) {}
 	~Free() {}
 
-	Colony colony_;
+	//Colony colony_;
+private:
+	std::pair<int, int> cell_static = {0,0};
+	size_t colony_gen_ = 1;
+	Coordinates max_field_sizes_ = Coordinates::NONE;
+	std::string colony_type_ = "Free";
+	std::vector<Cell> colony_;
 };
