@@ -49,7 +49,6 @@ public:
 		}
 	}
 	~Glider() {}
-
 private:
 	std::pair<int, int> cell_static = {0,0};
 	size_t colony_gen_ = 1;
@@ -71,7 +70,6 @@ public:
 		this->AddCell(A).AddCell(B).AddCell(C);
 	}
 	~Blinker() {}
-
 private:
 	std::pair<int, int> cell_static = {0,0};
 	size_t colony_gen_ = 1;
@@ -115,7 +113,6 @@ public:
 		}
 	}
 	~Toad() {}
-
 private:
 	std::pair<int, int> cell_static = {0,0};
 	size_t colony_gen_ = 1;
@@ -177,7 +174,6 @@ public:
 		}
 	}
 	~RPentomino() {}
-
 private:
 	std::pair<int, int> cell_static = {0,0};
 	size_t colony_gen_ = 1;
@@ -190,8 +186,6 @@ class Free : public Colony {
 public:
 	Free(const Coordinates& max_field_size) : max_field_sizes_(max_field_size) {}
 	~Free() {}
-
-	//Colony colony_;
 private:
 	std::pair<int, int> cell_static = {0,0};
 	size_t colony_gen_ = 1;

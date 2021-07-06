@@ -19,6 +19,16 @@ public:
 			this->AddCell(cell);
 		}
 	}
+	Colony(const Colony& rhs) {
+		if (this != &rhs) {
+			this->cell_static = rhs.cell_static;
+			this->colony_gen_ = rhs.colony_gen_;
+			this->colony_type_ = rhs.colony_type_;
+			this->max_field_sizes_ = rhs.max_field_sizes_;
+			this->colony_.resize(rhs.colony_.size());
+			std::copy(rhs.colony_.begin(), rhs.colony_.end(), this->colony_.begin());
+		}
+	}
 	virtual ~Colony(){}
 	
 	const std::vector<Cell>& GetColony() const;
@@ -50,3 +60,12 @@ private:
 	std::string colony_type_ = "Free";
 	std::vector<Cell> colony_;
 };
+
+
+inline bool operator==(const Colony& lhs, const Colony& rhs) {
+	return lhs.GetGen() == rhs.GetGen() && lhs.GetColony() == rhs.GetColony() && lhs.GetType() == rhs.GetType();
+}
+
+inline bool operator!=(const Colony& lhs, const Colony& rhs) {
+	return !(lhs == rhs);
+}
